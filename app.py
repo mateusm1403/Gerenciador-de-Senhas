@@ -6,41 +6,41 @@ import string
 import os
 import pyperclip
 
-# Função para gerar uma chave de criptografia
+
 def gerar_chave():
     chave = Fernet.generate_key()
     with open('chave.key', 'wb') as chave_file:
         chave_file.write(chave)
     return chave
 
-# Função para carregar a chave de criptografia
+
 def carregar_chave():
     return open('chave.key', 'rb').read()
 
-# Função para gerar senha aleatória
+
 def gerar_senha(comprimento):
     caracteres = string.ascii_letters + string.digits + string.punctuation
     senha = ''.join(random.choice(caracteres) for _ in range(comprimento))
     return senha
 
-# Função para criptografar a senha
+
 def criptografar_senha(senha, chave):
     f = Fernet(chave)
     senha_encriptada = f.encrypt(senha.encode())
     return senha_encriptada
 
-# Função para descriptografar a senha
+
 def descriptografar_senha(senha_criptografada, chave):
     f = Fernet(chave)
     senha_descriptografada = f.decrypt(senha_criptografada).decode()
     return senha_descriptografada
 
-# Função para salvar a senha criptografada em um arquivo
+
 def salvar_senha(senha_criptografada, descricao, arquivo):
     with open(arquivo, 'ab') as file:
         file.write(senha_criptografada + b' ' + descricao.encode() + b'\n')
 
-# Função para ler as senhas criptografadas de um arquivo
+
 def ler_senhas_criptografadas(arquivo):
     if not os.path.exists(arquivo):
         return []
@@ -48,7 +48,7 @@ def ler_senhas_criptografadas(arquivo):
         senhas_criptografadas = file.readlines()
     return senhas_criptografadas
 
-# Função para deletar uma senha do arquivo
+
 def deletar_senha(linha, arquivo):
     with open(arquivo, 'rb') as file:
         linhas = file.readlines()
@@ -57,7 +57,7 @@ def deletar_senha(linha, arquivo):
             if i != linha:
                 file.write(l)
 
-# Função para editar uma senha no arquivo
+
 def editar_senha(linha, nova_senha_criptografada, nova_descricao, arquivo):
     with open(arquivo, 'rb') as file:
         linhas = file.readlines()
@@ -68,7 +68,7 @@ def editar_senha(linha, nova_senha_criptografada, nova_descricao, arquivo):
             else:
                 file.write(l)
 
-# Interface gráfica com tkinter
+
 class App(tk.Tk):
     def __init__(self):
         super().__init__()
